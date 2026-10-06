@@ -1,25 +1,25 @@
-## 📌 Descrição da Alteração
-Descreva sucintamente o script adicionado ou modificado nesta PR.
+## Description
+Briefly describe the script or changes introduced in this pull request.
 
-## 🔗 Issue Relacionada
-Conecta e fecha automaticamente a issue correspondente quando o PR for mergeado:
+## Related Issue
+Closes and links the corresponding issue when this PR is merged:
 - Closes #
 
-## 🚀 Tipo de Mudança
-- [ ] ✨ Nova funcionalidade / Novo script (`feat`)
-- [ ] 🐛 Correção de bug (`fix`)
-- [ ] 📝 Documentação (`docs`)
-- [ ] ♻️ Refatoração / Melhoria de código (`refactor`)
+## Type of Change
+- [ ] New feature / New script (`feat`)
+- [ ] Bug fix (`fix`)
+- [ ] Documentation update (`docs`)
+- [ ] Code refactoring / Cleanup (`refactor`)
 
-## 🧪 Como Testar
-Descreva o passo a passo para executar e validar o script:
+## How to Test
+Describe the steps to run and validate the script:
 ```bash
-# Comandos de teste
+# Test command(s)
 ```
 
-## ✅ Checklist de Qualidade
-- [ ] O script foi testado localmente e funcionou conforme esperado
-- [ ] O código segue boas práticas e está documentado/comentado
-- [ ] Não há arquivos temporários ou desnecessários incluídos no commit
-- [ ] A branch foi criada a partir da `main` atualizada
-- [ ] O commit segue o padrão de Conventional Commits (ex: `feat: ...` ou `fix: ...`)
+## Quality Checklist
+- [ ] Script was tested locally and behaves as expected
+- [ ] Code follows best practices and includes usage docstrings/comments
+- [ ] No temporary files or secrets committed
+- [ ] Branch was branched off an updated `main`
+- [ ] Commit message follows Conventional Commits (e.g., `feat: ...`, `fix: ...`)

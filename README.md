@@ -1,6 +1,6 @@
-# 🛠️ Central de Scripts e Automações Úteis
+# Useful Scripts & Automations Hub
 
-> Coleção modular de scripts e automações em Python, JavaScript/Node.js e Shell/PowerShell para resolver tarefas rotineiras e repetitivas de desenvolvimento.
+> A modular collection of lightweight scripts and automations written in Python, JavaScript/Node.js, and Shell/PowerShell to solve everyday developer tasks.
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Anders0nlima/my-useful-scripts?color=blue)
 ![GitHub issues](https://img.shields.io/github/issues/Anders0nlima/my-useful-scripts?color=orange)
@@ -11,74 +11,74 @@
 
 ---
 
-## 🎯 Proposta do Projeto
+## Project Goals
 
-1. **Automações Práticas do Mundo Real:** Resolver pequenas dores do dia a dia (limpeza de arquivos, conversão de formatos, relatórios rápidos, chamadas de API, utilitários de repositório).
-2. **Total Isolamento:** Cada automação é autocontida e funciona de forma independente, sem gerar acoplamento entre os scripts.
-3. **Cultura DevOps / Open Source:** Todo novo script passa pelo ciclo completo de engenharia de software: **Issue** $\rightarrow$ **Branch** $\rightarrow$ **Commits Convencionais** $\rightarrow$ **Pull Request** $\rightarrow$ **Code Review & Merge**.
+1. **Practical Real-World Automations:** Solve repetitive daily chores (file reorganization, data transformations, quick reports, API utilities, git cleanup).
+2. **Full Isolation:** Every script is self-contained and operates independently without coupling to other scripts.
+3. **Open Source & DevOps Best Practices:** Every new script follows the complete engineering workflow: **Issue** $\rightarrow$ **Branch** $\rightarrow$ **Conventional Commits** $\rightarrow$ **Pull Request** $\rightarrow$ **Review & Merge**.
 
 ---
 
-## 📁 Estrutura de Pastas
+## Directory Structure
 
 ```text
 my-useful-scripts/
 ├── .github/
-│   ├── ISSUE_TEMPLATE/       # Templates padronizados para Issues
-│   └── PULL_REQUEST_TEMPLATE.md # Template para Pull Requests
+│   ├── ISSUE_TEMPLATE/          # Standardized issue templates
+│   └── PULL_REQUEST_TEMPLATE.md # Pull request template
 ├── scripts/
-│   ├── python/               # Scripts e automações em Python
-│   ├── javascript/           # Scripts e automações em JavaScript / Node.js
-│   └── shell/                # Scripts em Bash ou PowerShell
-├── CONTRIBUTING.md           # Guia com fluxo de Branches, Commits e PRs
-├── .editorconfig             # Padrões de formatação de código
-├── .gitignore                # Arquivos ignorados pelo Git
-└── README.md                 # Documentação principal
+│   ├── python/                  # Python utilities & automations
+│   ├── javascript/              # JavaScript / Node.js utilities
+│   └── shell/                   # Shell / Bash / PowerShell scripts
+├── CONTRIBUTING.md              # Workflow guide for Branches, Commits, and PRs
+├── .editorconfig                # Editor and code style standards
+├── .gitignore                   # Ignored files and patterns
+└── README.md                    # Main documentation
 ```
 
 ---
 
-## 📚 Catálogo de Scripts
+## Scripts Catalog
 
-| Script | Linguagem | Categoria | Descrição | Caminho |
+| Script | Language | Category | Description | Path |
 | :--- | :--- | :--- | :--- | :--- |
-| *Em breve* | Python / Node / Shell | Utilitários | *Os primeiros scripts serão adicionados via Pull Requests dedicados.* | `scripts/` |
+| *Coming soon* | Python / Node / Shell | Utilities | *First scripts will be added via dedicated Pull Requests.* | `scripts/` |
 
 ---
 
-## 💡 Próximas Automações Planejadas (Roadmap de Issues)
+## Planned Automations (Roadmap)
 
-Ideias para abertura de novas Issues e PRs no repositório:
+Ideas for upcoming Issues and Pull Requests:
 
-- [ ] **Organizador de Downloads:** Agrupar arquivos em pastas por extensão (Imagens, PDFs, Vídeos, Documentos).
-- [ ] **Limpador de Branches Locais:** Script Shell/PowerShell para remover branches do Git que já foram excluídas no repositório remoto.
-- [ ] **Conversor de Imagens em Lote:** Otimização e conversão de PNG/JPEG para WebP.
-- [ ] **Gerador de Dados de Teste:** Criar arquivos JSON/CSV com dados fictícios (nome, email, CPF, data).
-- [ ] **Validador de Links em Markdown:** Percorrer arquivos `.md` e checar URLs quebradas com status HTTP 404.
-
----
-
-## 🚀 Pré-requisitos
-
-Para executar os scripts deste repositório, recomenda-se ter instalado:
-
-- **Python 3.10+** (utilizado `python --version`)
-- **Node.js 18+** (utilizado `node --version`)
-- **Git** configurado localmente
+- [ ] **Downloads Organizer:** Sort files into categorized folders by extension (Images, Docs, PDFs, Videos, Installers).
+- [ ] **Git Local Branch Cleaner:** Shell / PowerShell script to prune local branches that have been deleted on the remote.
+- [ ] **Batch Image Converter:** Batch optimize and convert PNG/JPEG images to WebP format.
+- [ ] **Mock Data Generator:** Generate JSON / CSV files with mock test data (names, emails, dates).
+- [ ] **Markdown Broken Links Checker:** Scan markdown files and detect broken HTTP links (e.g., 404 responses).
 
 ---
 
-## 🤝 Como Contribuir / Adicionar Novos Scripts
+## Prerequisites
 
-Cada novo script deve ser desenvolvido em uma branch isolada e submetido via Pull Request.
+To run scripts from this repository, ensure you have installed:
 
-Consulte o nosso guia completo em [CONTRIBUTING.md](file:///c:/Projetos/my-useful-scripts/CONTRIBUTING.md) para conferir:
-- Nomenclatura de branches (`feature/nome-do-script`)
-- Padrão de commits (`feat: ...`, `fix: ...`)
-- Como vincular a Issue ao Pull Request (`Closes #1`)
+- **Python 3.10+** (`python --version`)
+- **Node.js 18+** (`node --version`)
+- **Git** configured locally
 
 ---
 
-## 📄 Licença
+## How to Contribute / Add New Scripts
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+Every new script must be developed in an isolated branch and submitted through a Pull Request.
+
+Check out our complete step-by-step guide in [CONTRIBUTING.md](file:///c:/Projetos/my-useful-scripts/CONTRIBUTING.md) for:
+- Branch naming guidelines (`feature/<script-name>`)
+- Commit message conventions (`feat: ...`, `fix: ...`)
+- Linking Issues to Pull Requests (`Closes #1`)
+
+---
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.

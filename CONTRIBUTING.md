@@ -1,118 +1,118 @@
-# 🤝 Guia de Contribuição e Fluxo Git / GitHub
+# Contribution Guide & Git/GitHub Workflow
 
-Este repositório foi projetado para ser modular: **cada automação é tratada como uma funcionalidade (feature) independente**.
+This repository is built to be modular: **each script or automation is treated as a completely isolated feature**.
 
-Além de construir ferramentas úteis, o fluxo deste projeto simula as melhores práticas de engenharia de software usadas no mercado: abertura de **Issues**, desenvolvimento em **Branches**, submissão de **Pull Requests (PRs)** e commits padronizados.
-
----
-
-## 🧭 O Ciclo de Desenvolvimento (Passo a Passo)
-
-```
-[1. Criar Issue] ──> [2. Criar Branch] ──> [3. Desenvolver Script] ──> [4. Fazer Commit] ──> [5. Push & Abrir PR] ──> [6. Merge na Main]
-```
-
-### 1. Criar a Issue
-Antes de codificar, abra uma Issue descrevendo o problema e o script que será criado.
-- Pelo GitHub Web: Aba **Issues** > **New Issue** > Selecione o template **Novo Script / Automação**.
-- Anote o número da Issue criada (ex: `#1`).
+Beyond collecting useful tools, this project is designed to practice real-world software engineering collaboration: creating **Issues**, developing in dedicated **Branches**, submitting **Pull Requests (PRs)**, and writing standardized commit messages.
 
 ---
 
-### 2. Criar uma Branch dedicada
-Sempre crie uma nova branch a partir da `main` atualizada. Nunca trabalhe direto na `main` para novas features.
+## The Development Lifecycle (Step-by-Step)
+
+```text
+[1. Create Issue] ──> [2. Create Branch] ──> [3. Implement Script] ──> [4. Commit Changes] ──> [5. Push & Open PR] ──> [6. Merge to Main]
+```
+
+### 1. Create an Issue
+Before writing code, open an Issue describing the problem and the proposed automation.
+- On GitHub Web: **Issues** tab > **New Issue** > Select the **New Script / Automation** template.
+- Note the generated issue number (e.g., `#1`).
+
+---
+
+### 2. Create a Dedicated Branch
+Always branch off an up-to-date `main`. Never work directly on `main` for new features or fixes.
 
 ```bash
-# 1. Garanta que está na branch main e atualizado
+# 1. Ensure you are on the main branch and up to date
 git checkout main
 git pull origin main
 
-# 2. Crie e mude para a nova branch (use um nome descritivo)
-git checkout -b feature/nome-do-script
-# Exemplo: git checkout -b feature/organizador-downloads
+# 2. Create and switch to a new branch (use a concise, descriptive name)
+git checkout -b feature/script-name
+# Example: git checkout -b feature/downloads-organizer
 ```
 
-**Padrão de nomenclatura de branches:**
-- Novas automações: `feature/<nome-curto>`
-- Correção de bugs: `fix/<nome-curto>`
-- Documentação ou ajustes: `docs/<nome-curto>` ou `chore/<nome-curto>`
+**Branch naming conventions:**
+- New automations: `feature/<short-name>`
+- Bug fixes: `fix/<short-name>`
+- Documentation/Chores: `docs/<short-name>` or `chore/<short-name>`
 
 ---
 
-### 3. Desenvolver o Script
-Coloque o seu script no diretório adequado de acordo com a linguagem:
+### 3. Implement the Script
+Place your script inside the appropriate directory according to its runtime/language:
 - Python: `scripts/python/`
 - Node.js / JavaScript: `scripts/javascript/`
 - Shell / Bash / PowerShell: `scripts/shell/`
 
-**Boas práticas para cada script:**
-- Mantenha o script **autossuficiente** (standalone).
-- Inclua documentação no próprio cabeçalho do arquivo explicando:
-  - Objetivo
-  - Parâmetros aceitos
-  - Exemplo prático de execução
-- Se houver dependências externas (ex: biblioteca Python), documente ou mantenha um `requirements.txt` específico na pasta do script se for um script mais complexo.
+**Best Practices for each script:**
+- Keep each script **self-contained** (standalone).
+- Include clear usage instructions directly in the file header or docstring:
+  - Purpose
+  - Accepted arguments/flags
+  - Practical execution examples
+- If the script requires external dependencies, keep requirements minimal and clearly document installation instructions.
 
 ---
 
-### 4. Commitar com Conventional Commits
-Use mensagens de commit claras e padronizadas no formato:
-`<tipo>(<escopo>): <descrição no imperativo>`
+### 4. Commit with Conventional Commits
+Write clear commit messages using the Conventional Commits format:
+`<type>(<scope>): <imperative description>`
 
-Exemplos:
-- `feat(python): adiciona script para organizacao automatica de downloads`
-- `feat(node): adiciona script para conversao de json para csv`
-- `fix(shell): corrige erro de permissao no backup de logs`
-- `docs: atualiza tabela de scripts no README`
+Examples:
+- `feat(python): add automated downloads organizer script`
+- `feat(node): add json to csv conversion script`
+- `fix(shell): resolve permission issue in log backup script`
+- `docs: update scripts table in README`
 
-Comandos no terminal:
+Terminal commands:
 ```bash
 git status
-git add scripts/python/meu_script.py
-git commit -m "feat(python): adiciona script para organizacao de downloads"
+git add scripts/python/my_script.py
+git commit -m "feat(python): add downloads organizer script"
 ```
 
 ---
 
-### 5. Enviar a Branch e Abrir o Pull Request (PR)
+### 5. Push the Branch and Open a Pull Request (PR)
 
-Envie a branch para o repositório remoto:
+Push the branch to the remote repository:
 ```bash
-git push -u origin feature/nome-do-script
+git push -u origin feature/script-name
 ```
 
-Após o push:
-1. Acesse o GitHub no seu navegador (o GitHub exibirá um botão verde **Compare & pull request**).
-2. No corpo do PR, preencha as seções do template.
-3. **Importante:** Vincule a issue adicionando no corpo: `Closes #1` (substitua pelo número da sua issue). Assim que o PR for aprovado e mesclado, a Issue será fechada automaticamente, computando suas estatísticas no GitHub!
+After pushing:
+1. Go to your repository on GitHub (you will see the **Compare & pull request** banner).
+2. Fill out the PR template sections.
+3. **Important:** Link the issue in the PR description using `Closes #1` (replace `1` with your actual issue number). When the PR is merged, the issue will automatically close and update your GitHub stats!
 
 ---
 
-### 6. Merge e Sincronização Local
-Após mergear o PR no GitHub:
+### 6. Merge and Sync Locally
+After merging the PR on GitHub:
 ```bash
-# Volte para a main local
+# Switch back to local main
 git checkout main
 
-# Baixe as alterações mescladas do GitHub
+# Pull the merged changes from GitHub
 git pull origin main
 
-# (Opcional) Delete a branch local que já foi mesclada
-git branch -d feature/nome-do-script
+# (Optional) Delete the merged local branch
+git branch -d feature/script-name
 ```
 
 ---
 
-## ⚡ Dica Bônus: Usando a GitHub CLI (`gh`)
-Se você instalar a ferramenta oficial do GitHub no terminal (`gh`), poderá fazer todo esse fluxo sem abrir o navegador:
+## Pro Tip: Using GitHub CLI (`gh`)
+If you have the official GitHub CLI (`gh`) installed, you can execute this entire flow directly from your terminal:
 
 ```bash
-# Criar uma issue direto pelo terminal
-gh issue create --title "feat: organizador de downloads" --body "Script para organizar pasta por extensões."
+# Create an issue from the terminal
+gh issue create --title "feat: downloads organizer" --body "Script to organize downloads folder by extension."
 
-# Criar um PR direto pelo terminal
-gh pr create --title "feat(python): organizador de downloads" --body "Closes #1"
+# Create a pull request linked to the issue
+gh pr create --title "feat(python): downloads organizer" --body "Closes #1"
 
-# Fazer merge do PR pelo terminal
+# Merge the pull request
 gh pr merge --squash --delete-branch
 ```
