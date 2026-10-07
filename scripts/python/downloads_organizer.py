@@ -14,8 +14,24 @@ import shutil
 
 
 # Mapping categories to sets of file extensions (extensions with leading dot, lowercased).
-# Specific categories will be populated iteratively in subsequent feature commits.
-CATEGORY_EXTENSIONS: dict[str, set[str]] = {}
+CATEGORY_EXTENSIONS: dict[str, set[str]] = {
+    "Documents": {
+        ".pdf",
+        ".docx",
+        ".doc",
+        ".txt",
+        ".xlsx",
+        ".xls",
+        ".pptx",
+        ".ppt",
+        ".csv",
+        ".odt",
+        ".ods",
+        ".odp",
+        ".rtf",
+        ".md",
+    },
+}
 
 
 def get_default_downloads_dir() -> Path:
