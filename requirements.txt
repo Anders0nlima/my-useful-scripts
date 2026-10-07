@@ -1,0 +1,3 @@
+# Python dependencies for repository automation scripts
+Pillow>=10.0.0
+
