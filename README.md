@@ -42,7 +42,7 @@ my-useful-scripts/
 
 | Script | Language | Category | Description | Path |
 | :--- | :--- | :--- | :--- | :--- |
-| *Coming soon* | Python / Node / Shell | Utilities | *First scripts will be added via dedicated Pull Requests.* | `scripts/` |
+| **Downloads Organizer** | Python 3 | File Management | Organizes files into categorized folders (`Documents`, `Images`, `Archives`, `Media`, `Executables`) by extension. Supports `--dry-run` and collision-safe renaming. | [`scripts/python/downloads_organizer.py`](scripts/python/downloads_organizer.py) |
 
 ---
 
@@ -50,9 +50,9 @@ my-useful-scripts/
 
 Ideas for upcoming Issues and Pull Requests:
 
-- [ ] **Downloads Organizer:** Sort files into categorized folders by extension (Images, Docs, PDFs, Videos, Installers).
+- [x] **Downloads Organizer:** Sort files into categorized folders by extension (Images, Docs, PDFs, Videos, Installers). *(Implemented in #1)*
+- [ ] **Image Compressor:** Batch optimize and compress images for web using Pillow. *(Tracked in #2)*
 - [ ] **Git Local Branch Cleaner:** Shell / PowerShell script to prune local branches that have been deleted on the remote.
-- [ ] **Batch Image Converter:** Batch optimize and convert PNG/JPEG images to WebP format.
 - [ ] **Mock Data Generator:** Generate JSON / CSV files with mock test data (names, emails, dates).
 - [ ] **Markdown Broken Links Checker:** Scan markdown files and detect broken HTTP links (e.g., 404 responses).
 

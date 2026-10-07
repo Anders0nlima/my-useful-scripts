@@ -12,6 +12,12 @@ import sys
 from pathlib import Path
 import shutil
 
+# Ensure UTF-8 output encoding across all operating systems and shells
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 
 # Mapping categories to sets of file extensions (extensions with leading dot, lowercased).
 CATEGORY_EXTENSIONS: dict[str, set[str]] = {
@@ -70,6 +76,20 @@ CATEGORY_EXTENSIONS: dict[str, set[str]] = {
         ".ogg",
         ".m4a",
         ".wma",
+    },
+    "Executables": {
+        ".exe",
+        ".msi",
+        ".bat",
+        ".cmd",
+        ".ps1",
+        ".sh",
+        ".apk",
+        ".dmg",
+        ".pkg",
+        ".deb",
+        ".rpm",
+        ".jar",
     },
 }
 
