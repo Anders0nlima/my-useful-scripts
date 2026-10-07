@@ -11,6 +11,8 @@ import argparse
 import sys
 from pathlib import Path
 
+from PIL import Image
+
 # Ensure UTF-8 output encoding across all operating systems and shells
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -45,6 +47,38 @@ def find_image_files(input_path: Path) -> list[Path]:
         if item.is_file() and item.suffix.lower() in SUPPORTED_EXTENSIONS:
             images.append(item)
     return images
+
+
+def compress_image(
+    input_file: Path,
+    destination_file: Path,
+    quality: int = 80,
+) -> tuple[int, int]:
+    """Compress a single image file with the requested quality.
+
+    Returns:
+        tuple[int, int]: (original_size_bytes, compressed_size_bytes)
+    """
+    destination_file.parent.mkdir(parents=True, exist_ok=True)
+    original_size = input_file.stat().st_size
+
+    with Image.open(input_file) as img:
+        ext = destination_file.suffix.lower()
+        save_format = "JPEG" if ext in {".jpg", ".jpeg"} else "PNG" if ext == ".png" else img.format
+
+        if save_format == "JPEG" and img.mode in ("RGBA", "LA", "P"):
+            rgb_img = Image.new("RGB", img.size, (255, 255, 255))
+            if img.mode == "P":
+                img = img.convert("RGBA")
+            rgb_img.paste(img, mask=img.split()[-1] if "A" in img.mode else None)
+            rgb_img.save(destination_file, format="JPEG", quality=quality, optimize=True)
+        elif save_format == "PNG":
+            img.save(destination_file, format="PNG", optimize=True)
+        else:
+            img.save(destination_file, quality=quality, optimize=True)
+
+    compressed_size = destination_file.stat().st_size
+    return original_size, compressed_size
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -100,7 +134,17 @@ def main() -> None:
 
     print(f"🔍 Found {len(images)} image(s) to process.")
     print(f"📂 Output directory: {output_dir.resolve()}")
-    print(f"⚙️ Target quality: {args.quality}%")
+    print(f"⚙️ Target quality: {args.quality}%\n")
+
+    for image_path in images:
+        destination = output_dir / image_path.name
+        try:
+            orig, comp = compress_image(image_path, destination, quality=args.quality)
+            saved = orig - comp
+            saved_percent = (saved / orig * 100) if orig > 0 else 0
+            print(f"[OK] {image_path.name}: {orig}B -> {comp}B ({saved_percent:.1f}% saved)")
+        except Exception as exc:
+            print(f"[ERROR] Failed {image_path.name}: {exc}", file=sys.stderr)
 
 
 if __name__ == "__main__":
