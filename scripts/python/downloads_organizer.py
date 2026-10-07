@@ -43,6 +43,17 @@ CATEGORY_EXTENSIONS: dict[str, set[str]] = {
         ".tiff",
         ".tif",
     },
+    "Archives": {
+        ".zip",
+        ".rar",
+        ".7z",
+        ".tar",
+        ".gz",
+        ".bz2",
+        ".xz",
+        ".iso",
+        ".tgz",
+    },
 }
 
 
