@@ -53,6 +53,8 @@ def compress_image(
     input_file: Path,
     destination_file: Path,
     quality: int = 80,
+    to_webp: bool = False,
+    max_width: int | None = None,
 ) -> tuple[int, int]:
     """Compress a single image file with the requested quality.
 
@@ -63,19 +65,31 @@ def compress_image(
     original_size = input_file.stat().st_size
 
     with Image.open(input_file) as img:
-        ext = destination_file.suffix.lower()
-        save_format = "JPEG" if ext in {".jpg", ".jpeg"} else "PNG" if ext == ".png" else img.format
+        # Optional resizing preserving aspect ratio
+        if max_width and img.width > max_width:
+            new_height = int(img.height * (max_width / img.width))
+            resample_filter = getattr(Image, "Resampling", Image).LANCZOS
+            img = img.resize((max_width, new_height), resample_filter)
 
-        if save_format == "JPEG" and img.mode in ("RGBA", "LA", "P"):
-            rgb_img = Image.new("RGB", img.size, (255, 255, 255))
-            if img.mode == "P":
-                img = img.convert("RGBA")
-            rgb_img.paste(img, mask=img.split()[-1] if "A" in img.mode else None)
-            rgb_img.save(destination_file, format="JPEG", quality=quality, optimize=True)
-        elif save_format == "PNG":
-            img.save(destination_file, format="PNG", optimize=True)
+        if to_webp:
+            # WebP natively supports both RGB and transparent RGBA
+            if img.mode not in ("RGB", "RGBA"):
+                img = img.convert("RGBA" if "transparency" in img.info else "RGB")
+            img.save(destination_file, format="WEBP", quality=quality, method=6)
         else:
-            img.save(destination_file, quality=quality, optimize=True)
+            ext = destination_file.suffix.lower()
+            save_format = "JPEG" if ext in {".jpg", ".jpeg"} else "PNG" if ext == ".png" else img.format
+
+            if save_format == "JPEG" and img.mode in ("RGBA", "LA", "P"):
+                rgb_img = Image.new("RGB", img.size, (255, 255, 255))
+                if img.mode == "P":
+                    img = img.convert("RGBA")
+                rgb_img.paste(img, mask=img.split()[-1] if "A" in img.mode else None)
+                rgb_img.save(destination_file, format="JPEG", quality=quality, optimize=True)
+            elif save_format == "PNG":
+                img.save(destination_file, format="PNG", optimize=True)
+            else:
+                img.save(destination_file, quality=quality, optimize=True)
 
     compressed_size = destination_file.stat().st_size
     return original_size, compressed_size
@@ -107,6 +121,17 @@ def parse_arguments() -> argparse.Namespace:
         default=80,
         help="Compression quality from 1 to 100 (default: 80)",
     )
+    parser.add_argument(
+        "--to-webp",
+        action="store_true",
+        help="Convert processed images to modern WebP format (.webp)",
+    )
+    parser.add_argument(
+        "--max-width",
+        type=int,
+        default=None,
+        help="Optionally resize images to a maximum width (maintains aspect ratio)",
+    )
     return parser.parse_args()
 
 
@@ -116,6 +141,10 @@ def main() -> None:
 
     if not 1 <= args.quality <= 100:
         print("❌ Error: Quality must be an integer between 1 and 100.", file=sys.stderr)
+        sys.exit(1)
+
+    if args.max_width is not None and args.max_width <= 0:
+        print("❌ Error: --max-width must be a positive integer.", file=sys.stderr)
         sys.exit(1)
 
     try:
@@ -134,15 +163,27 @@ def main() -> None:
 
     print(f"🔍 Found {len(images)} image(s) to process.")
     print(f"📂 Output directory: {output_dir.resolve()}")
-    print(f"⚙️ Target quality: {args.quality}%\n")
+    print(f"⚙️ Target quality: {args.quality}%")
+    if args.to_webp:
+        print("🌐 Format conversion: WebP enabled")
+    if args.max_width:
+        print(f"📐 Max width constraint: {args.max_width}px")
+    print()
 
     for image_path in images:
-        destination = output_dir / image_path.name
+        destination_name = f"{image_path.stem}.webp" if args.to_webp else image_path.name
+        destination = output_dir / destination_name
         try:
-            orig, comp = compress_image(image_path, destination, quality=args.quality)
+            orig, comp = compress_image(
+                image_path,
+                destination,
+                quality=args.quality,
+                to_webp=args.to_webp,
+                max_width=args.max_width,
+            )
             saved = orig - comp
             saved_percent = (saved / orig * 100) if orig > 0 else 0
-            print(f"[OK] {image_path.name}: {orig}B -> {comp}B ({saved_percent:.1f}% saved)")
+            print(f"[OK] {image_path.name} -> {destination.name}: {orig}B -> {comp}B ({saved_percent:.1f}% saved)")
         except Exception as exc:
             print(f"[ERROR] Failed {image_path.name}: {exc}", file=sys.stderr)
 
