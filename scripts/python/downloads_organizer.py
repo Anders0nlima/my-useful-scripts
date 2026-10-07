@@ -54,6 +54,23 @@ CATEGORY_EXTENSIONS: dict[str, set[str]] = {
         ".iso",
         ".tgz",
     },
+    "Media": {
+        ".mp4",
+        ".mkv",
+        ".avi",
+        ".mov",
+        ".wmv",
+        ".flv",
+        ".webm",
+        ".m4v",
+        ".mp3",
+        ".wav",
+        ".aac",
+        ".flac",
+        ".ogg",
+        ".m4a",
+        ".wma",
+    },
 }
 
 
