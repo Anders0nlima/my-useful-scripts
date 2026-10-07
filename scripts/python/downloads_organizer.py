@@ -31,6 +31,18 @@ CATEGORY_EXTENSIONS: dict[str, set[str]] = {
         ".rtf",
         ".md",
     },
+    "Images": {
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".webp",
+        ".svg",
+        ".bmp",
+        ".ico",
+        ".tiff",
+        ".tif",
+    },
 }
 
 
