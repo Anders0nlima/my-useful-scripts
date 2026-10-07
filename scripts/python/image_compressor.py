@@ -135,6 +135,18 @@ def parse_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def format_size(size_bytes: int) -> str:
+    """Format bytes into a human-readable string (KB, MB, GB)."""
+    size = float(size_bytes)
+    if size < 1024:
+        return f"{int(size)} B"
+    for unit in ("KB", "MB", "GB"):
+        size /= 1024.0
+        if size < 1024 or unit == "GB":
+            return f"{size:.2f} {unit}"
+    return f"{size:.2f} GB"
+
+
 def main() -> None:
     """Script entry point."""
     args = parse_arguments()
@@ -170,6 +182,11 @@ def main() -> None:
         print(f"📐 Max width constraint: {args.max_width}px")
     print()
 
+    total_original = 0
+    total_compressed = 0
+    successful_count = 0
+    failed_count = 0
+
     for image_path in images:
         destination_name = f"{image_path.stem}.webp" if args.to_webp else image_path.name
         destination = output_dir / destination_name
@@ -183,9 +200,26 @@ def main() -> None:
             )
             saved = orig - comp
             saved_percent = (saved / orig * 100) if orig > 0 else 0
-            print(f"[OK] {image_path.name} -> {destination.name}: {orig}B -> {comp}B ({saved_percent:.1f}% saved)")
+            total_original += orig
+            total_compressed += comp
+            successful_count += 1
+            print(
+                f"[OK] {image_path.name} -> {destination.name}: "
+                f"{format_size(orig)} -> {format_size(comp)} ({saved_percent:.1f}% saved)"
+            )
         except Exception as exc:
+            failed_count += 1
             print(f"[ERROR] Failed {image_path.name}: {exc}", file=sys.stderr)
+
+    print("\n📊 Compression Summary:")
+    print(f"  - Successfully processed: {successful_count} file(s)")
+    if failed_count > 0:
+        print(f"  - Failed: {failed_count} file(s)")
+    print(f"  - Original total size: {format_size(total_original)}")
+    print(f"  - Compressed total size: {format_size(total_compressed)}")
+    total_saved = total_original - total_compressed
+    total_saved_percent = (total_saved / total_original * 100) if total_original > 0 else 0
+    print(f"  - Total space saved: {format_size(total_saved)} ({total_saved_percent:.1f}%)")
 
 
 if __name__ == "__main__":
