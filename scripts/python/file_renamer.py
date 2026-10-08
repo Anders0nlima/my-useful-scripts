@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import datetime
 from pathlib import Path
 
 # Ensure UTF-8 output encoding across all operating systems and shells
@@ -16,6 +17,41 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+
+def compute_new_filename(
+    original_path: Path,
+    index: int = 1,
+    total_count: int = 1,
+    prefix: str = "",
+    suffix: str = "",
+    date_prefix: bool = False,
+    replace_target: str | None = None,
+    replace_with: str = "",
+    sequence: bool = False,
+) -> str:
+    """Compute the transformed filename according to formatting rules."""
+    stem = original_path.stem
+    ext = original_path.suffix
+
+    if replace_target is not None:
+        stem = stem.replace(replace_target, replace_with)
+
+    if sequence:
+        pad_width = max(3, len(str(total_count)))
+        stem = f"{stem}_{index:0{pad_width}d}"
+
+    if prefix:
+        stem = f"{prefix}{stem}"
+
+    if date_prefix:
+        today_prefix = datetime.now().strftime("%Y-%m-%d_")
+        stem = f"{today_prefix}{stem}"
+
+    if suffix:
+        stem = f"{stem}{suffix}"
+
+    return f"{stem}{ext}"
 
 
 def get_target_files(directory: Path, extension_filter: str | None = None) -> list[Path]:
