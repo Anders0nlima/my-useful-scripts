@@ -133,9 +133,89 @@ def parse_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
+class RenameOperation:
+    """Represents a planned rename operation with safety status."""
+
+    def __init__(self, source: Path, destination: Path, status: str, message: str = ""):
+        self.source = source
+        self.destination = destination
+        self.status = status  # 'RENAME', 'UNCHANGED', 'CONFLICT'
+        self.message = message
+
+
+def plan_rename_operations(
+    files: list[Path],
+    args: argparse.Namespace,
+) -> list[RenameOperation]:
+    """Calculate and validate planned rename operations, checking for name collisions."""
+    operations: list[RenameOperation] = []
+    seen_destinations: dict[Path, Path] = {}
+    total_files = len(files)
+
+    for index, file_path in enumerate(files, start=1):
+        new_name = compute_new_filename(
+            file_path,
+            index=index,
+            total_count=total_files,
+            prefix=args.prefix,
+            suffix=args.suffix,
+            date_prefix=args.date_prefix,
+            replace_target=args.replace,
+            replace_with=args.with_text,
+            sequence=args.sequence,
+        )
+        dest_path = file_path.parent / new_name
+
+        if dest_path == file_path:
+            operations.append(RenameOperation(file_path, dest_path, "UNCHANGED", "No change required"))
+            continue
+
+        if dest_path in seen_destinations:
+            conflict_file = seen_destinations[dest_path]
+            operations.append(
+                RenameOperation(
+                    file_path,
+                    dest_path,
+                    "CONFLICT",
+                    f"Destination conflict with '{conflict_file.name}'",
+                )
+            )
+            continue
+
+        if dest_path.exists():
+            operations.append(
+                RenameOperation(
+                    file_path,
+                    dest_path,
+                    "CONFLICT",
+                    f"Destination file '{dest_path.name}' already exists on disk",
+                )
+            )
+            continue
+
+        seen_destinations[dest_path] = file_path
+        operations.append(RenameOperation(file_path, dest_path, "RENAME"))
+
+    return operations
+
+
 def main() -> None:
     """Script entry point."""
     args = parse_arguments()
+
+    has_rules = any([
+        args.prefix,
+        args.suffix,
+        args.date_prefix,
+        args.replace is not None,
+        args.sequence,
+    ])
+    if not has_rules:
+        print(
+            "⚠️ No renaming rules specified (use --prefix, --suffix, --date-prefix, --replace, or --sequence).",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     try:
         files = get_target_files(args.dir, extension_filter=args.filter_ext)
@@ -151,6 +231,37 @@ def main() -> None:
     print(f"🔍 Discovered {len(files)} file(s) to process.")
     if args.dry_run:
         print("🔍 DRY RUN MODE enabled - No files will be renamed.\n")
+    else:
+        print()
+
+    operations = plan_rename_operations(files, args)
+
+    conflicts = [op for op in operations if op.status == "CONFLICT"]
+    if conflicts:
+        print(f"❌ Detected {len(conflicts)} conflict(s). Aborting to prevent data loss:\n", file=sys.stderr)
+        for conflict in conflicts:
+            print(f"  - {conflict.source.name} -> {conflict.destination.name}: {conflict.message}", file=sys.stderr)
+        sys.exit(1)
+
+    renamed_count = 0
+    unchanged_count = 0
+
+    for op in operations:
+        if op.status == "UNCHANGED":
+            unchanged_count += 1
+            print(f"[UNCHANGED] {op.source.name}")
+        elif args.dry_run:
+            renamed_count += 1
+            print(f"[DRY RUN] {op.source.name} -> {op.destination.name}")
+        else:
+            op.source.rename(op.destination)
+            renamed_count += 1
+            print(f"[RENAMED] {op.source.name} -> {op.destination.name}")
+
+    print("\n📊 Summary:")
+    print(f"  - Total files scanned: {len(files)}")
+    print(f"  - Files to rename: {renamed_count}" if args.dry_run else f"  - Files renamed: {renamed_count}")
+    print(f"  - Files unchanged: {unchanged_count}")
 
 
 if __name__ == "__main__":
