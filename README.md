@@ -44,6 +44,7 @@ my-useful-scripts/
 | :--- | :--- | :--- | :--- | :--- |
 | **Downloads Organizer** | Python 3 | File Management | Organizes files into categorized folders (`Documents`, `Images`, `Archives`, `Media`, `Executables`) by extension. Supports `--dry-run` and collision-safe renaming. | [`scripts/python/downloads_organizer.py`](scripts/python/downloads_organizer.py) |
 | **Image Compressor** | Python 3 | Media Optimization | Batch compresses images for the web with quality control, optional WebP conversion, and aspect-ratio resizing. | [`scripts/python/image_compressor.py`](scripts/python/image_compressor.py) |
+| **Batch File Renamer** | Python 3 | File Management | Batch renames files with prefixes, suffixes, date stamps, string replacement, and sequence numbering. Supports `--dry-run`. | [`scripts/python/file_renamer.py`](scripts/python/file_renamer.py) |
 
 ---
 
@@ -53,6 +54,7 @@ Ideas for upcoming Issues and Pull Requests:
 
 - [x] **Downloads Organizer:** Sort files into categorized folders by extension (Images, Docs, PDFs, Videos, Installers). *(Implemented in #1)*
 - [x] **Image Compressor:** Batch optimize and compress images for web using Pillow. *(Implemented in #2)*
+- [x] **Batch File Renamer:** Standardize file names with prefixes, suffixes, dates and sequence padding. *(Implemented in #5)*
 - [ ] **Git Local Branch Cleaner:** Shell / PowerShell script to prune local branches that have been deleted on the remote.
 - [ ] **Mock Data Generator:** Generate JSON / CSV files with mock test data (names, emails, dates).
 - [ ] **Markdown Broken Links Checker:** Scan markdown files and detect broken HTTP links (e.g., 404 responses).
