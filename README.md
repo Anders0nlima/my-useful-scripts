@@ -46,6 +46,7 @@ my-useful-scripts/
 | **Image Compressor** | Python 3 | Media Optimization | Batch compresses images for the web with quality control, optional WebP conversion, and aspect-ratio resizing. | [`scripts/python/image_compressor.py`](scripts/python/image_compressor.py) |
 | **Batch File Renamer** | Python 3 | File Management | Batch renames files with prefixes, suffixes, date stamps, string replacement, and sequence numbering. Supports `--dry-run`. | [`scripts/python/file_renamer.py`](scripts/python/file_renamer.py) |
 | **YouTube Playlist Downloader** | Python 3 | Media Downloader | Downloads complete playlists or videos as MP4 video or audio with error tolerance for deleted videos. | [`scripts/python/playlist_downloader.py`](scripts/python/playlist_downloader.py) |
+| **Secure Password Generator** | Python 3 | Security | Generates cryptographically secure passwords with the `secrets` module, with configurable length and character types (`--no-symbols`, `--no-numbers`, `--no-uppercase`), an entropy-based strength score, and optional `--copy` to the clipboard. | [`scripts/python/password_generator.py`](scripts/python/password_generator.py) |
 
 ---
 
